@@ -66,6 +66,7 @@ const index = (props) => {
     const getCategory = async () => {
         await getAllCategory().then((data) => {
             if (data.status == "success") {
+                console.log(data.data)
                 setCategoryList(data.data)
             }
         })

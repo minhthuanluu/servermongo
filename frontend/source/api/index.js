@@ -1,6 +1,6 @@
 import axios from "axios"
 import { _receiveData } from "../until/storage";
-export const baseUrl = "http://192.168.137.166:3000/api/v1/";
+export const baseUrl = "http://192.168.91.142:3000/api/v1/";
 
 export const register = async (name, email, password, phone, apartment, zip, city, country) => {
     let result = {
@@ -22,7 +22,7 @@ export const register = async (name, email, password, phone, apartment, zip, cit
     }
     await axios({
         method: 'POST',
-        url: `http://192.168.137.166:3000/api/v1/users/register`,
+        url: `http://192.168.91.142:3000/api/v1/users/register`,
         headers: {
             'Content-Type': 'application/json',
             'Accept': '*/*'
@@ -65,7 +65,7 @@ export const login = async (email, password) => {
 
     await axios({
         method: 'POST',
-        url: `http://192.168.137.166:3000/api/v1/users/login`,
+        url: `http://192.168.91.142:3000/api/v1/users/login`,
         headers: {
             'Content-Type': 'application/json',
             'Accept': '*/*'
@@ -101,7 +101,7 @@ export const getAllProduct = async () => {
         message: ''
     }
 
-    await axios.get('http://192.168.137.166:3000/api/v1/products/').then(
+    await axios.get('http://192.168.91.142:3000/api/v1/products/').then(
         (res) => {
             if (res.status == 200) {
                 result = {
@@ -133,7 +133,7 @@ export const getAllCategory = async () => {
 
     await axios({
         method: "GET",
-        url: "http://192.168.137.166:3000/api/v1/categories",
+        url: "http://192.168.91.142:3000/api/v1/categories",
         headers: {
             Accept: "application/json",
             "Content-Type": "application/json"
@@ -166,7 +166,7 @@ export const getProductListByCategoryId = async (catId) => {
 
     await axios({
         method: "GET",
-        url: `http://192.168.137.166:3000/api/v1/products/categoryId/${catId}`,
+        url: `http://192.168.91.142:3000/api/v1/products/categoryId/${catId}`,
         headers: {
             Accept: "application/json",
             "Content-Type": "application/json"
@@ -198,7 +198,7 @@ export const addProduct = async (formData) => {
     }
     await axios({
         method: "POST",
-        url: "http://192.168.137.166:3000/api/v1/products/",
+        url: "http://192.168.91.142:3000/api/v1/products/",
         headers: {
             Accept: "application/json",
             "Content-Type": "application/json"
@@ -231,7 +231,7 @@ export const deleteProduct = async (id) => {
     }
     await axios({
         method: "DELETE",
-        url: `http://192.168.137.166:3000/api/v1/products/${id}`,
+        url: `http://192.168.91.142:3000/api/v1/products/${id}`,
         headers: {
             Accept: "application/json",
             "Content-Type": "application/json"
@@ -252,9 +252,8 @@ export const deleteProduct = async (id) => {
     return data;
 }
 
-export const updateProduct = async (id, name, description, brand, price, category, countInStock, rating, numReviews, isFeatured, images) => {
-    console.log(id, name, description, brand, price, category, countInStock, rating, numReviews, isFeatured, images)
-    let data = {
+export const updateProduct = async (formData,id) => {
+   let data = {
         message: '',
         status: '',
         res: null,
@@ -263,25 +262,14 @@ export const updateProduct = async (id, name, description, brand, price, categor
     }
     await axios({
         method: "PUT",
-        url: `${baseUrl}products/gallery-images/${id}`,
+        url: `${baseUrl}products/${id}`,
         headers: {
             "Accept": "application/json",
             "Content-Type": "application/json"
         },
-        data: {
-            name: name,
-            description: description,
-            brand: brand,
-            image:null,
-            price: price,
-            category: category,
-            countInStock: countInStock,
-            rating: rating,
-            numReviews: numReviews,
-            isFeatured: isFeatured,
-            images: images
-        }
+        data: formData
     }).then((res) => {
+        console.log(res.data)
         if (res.status == 200) {
             data = {
                 message: "Cập nhật sản phẩm thành công",
@@ -291,9 +279,10 @@ export const updateProduct = async (id, name, description, brand, price, categor
             }
         }
     }).catch((error) => {
+        console.log(error)
         if (error) {
             data = {
-                error: error,
+                error: error.response,
                 loading: false,
                 status: "failed"
             }

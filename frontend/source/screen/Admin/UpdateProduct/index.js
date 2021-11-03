@@ -109,8 +109,18 @@ const index = (props) => {
             let imgArr = [];
             imgArr.push(fImage)
             category = item.categoryId;
-            console.log(imgArr)
-            await updateProduct(id,name,description,brand,price,category,countInStock,rating,numReviews,isFeatured,imgArr).then((data) => {
+            fData.append("id",id);
+            fData.append("name",name);
+            fData.append("descriptions",description);
+            fData.append("brand",brand);
+            fData.append("price",price);
+            fData.append("category",category);
+            fData.append("countInStock",countInStock);
+            fData.append("rating",rating);
+            fData.append("numReviews",numReviews);
+
+            await updateProduct(fData,id).then((data) => {
+                console.log(data)
                 if (data.status == "success") {
                     Alert.alert("Thông báo", "Sửa sản phẩm thành công",
                         [
@@ -154,11 +164,11 @@ const index = (props) => {
                 <Input placeholder="Name" defaultValue={item&&item.name} width={width - 50} style={{ marginTop: 15 }} onChangeText={(text) => setName(text)} />
                 <Input placeholder="Brand" defaultValue={item&&item.brand} width={width - 50} style={{ marginTop: 15 }} onChangeText={(text) => setBrand(text)} />
                 <Input placeholder="Price" defaultValue={item&&item.price} number width={width - 50} style={{ marginTop: 15 }} onChangeText={(text) => setPrice(text)} />
-                <Input placeholder="Description" defaultValue={item.description} defaultValue={item.description} multiline width={width - 50} style={{ marginTop: 15 }} onChangeText={(text) => setDescription(text)} />
-                <Input placeholder="Count in stock" defaultValue={item.countInStock.toString()} number width={width - 50} style={{ marginTop: 15 }} onChangeText={(text) => setCountInStock(text)} />
+                <Input placeholder="Description" defaultValue={item&&item.description} multiline width={width - 50} style={{ marginTop: 15 }} onChangeText={(text) => setDescription(text)} />
+                <Input placeholder="Count in stock" defaultValue={item&&item.countInStock.toString()} number width={width - 50} style={{ marginTop: 15 }} onChangeText={(text) => setCountInStock(text)} />
                 <View style={{ flexDirection: "row", marginLeft: 25 }}>
-                    <Input placeholder="Rating" defaultValue={item.rating.toString()} number width={width / 2 - 30} style={{ marginTop: 15 }} onChangeText={(text) => setRating(text)} />
-                    <Input placeholder="numReviews" defaultValue={item.numReviews.toString()} number width={width / 2 - 30} style={{ marginLeft: 10, marginTop: 15 }} onChangeText={(text) => setNumReviews(text)} />
+                    <Input placeholder="Rating" defaultValue={item&&item.rating.toString()} number width={width / 2 - 30} style={{ marginTop: 15 }} onChangeText={(text) => setRating(text)} />
+                    <Input placeholder="numReviews" defaultValue={item&&item.numReviews.toString()} number width={width / 2 - 30} style={{ marginLeft: 10, marginTop: 15 }} onChangeText={(text) => setNumReviews(text)} />
 
                 </View>
                 <View style={{ flexDirection: "row", marginLeft: 25 }}>

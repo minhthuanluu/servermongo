@@ -194,6 +194,7 @@ router.put('/:id', uploadOptions.single('image'), async (req, res) => {
     
 });
 
+
 // delete product
 router.delete('/:id', (req, res) => {
     Product.findByIdAndRemove(req.params.id).then((product) => {
@@ -209,8 +210,6 @@ router.delete('/:id', (req, res) => {
 
 // get product count
 router.get(`/get/count`, async (req, res) => {
-    console.log('get product count')
-
     const productCount = await Product.countDocuments((count) => count);
 
     if (productCount) {

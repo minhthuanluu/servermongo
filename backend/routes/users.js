@@ -2,7 +2,31 @@ const { User } = require('../models/user');
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const multer = require("multer");
+const mongoose = require("mongoose");
+
+const FILE_TYPE_MAP = {
+    'image/png': 'png',
+    'image/jpeg': 'jpeg',
+    'image/jpg': 'jpg'
+}
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        const isValid = FILE_TYPE_MAP[file.mimetype];
+        let uploadError = new Error('Định dạng hình ảnh không phù hợp');
+        if (isValid) {
+            uploadError = null;
+        }
+        cb(uploadError, 'public/uploads')
+    },
+    filename: (req, file, cb) => {
+        const fileName = file.originalname.split(' ').join('-');
+        cb(null, `${fileName}`);
+    }
+})
+
+const uploadOptions = multer({ storage: storage })
 
 router.get(`/`, async (req, res) => {
     // const userList = await User.find().select('name phone email');
@@ -73,6 +97,52 @@ router.post('/login', async (req, res) => {
 
 });
 
+// update user info
+router.put('/:id', uploadOptions.single('avatar'), async (req, res) => {
+    let user = await User.findById(req.params.id);
+    if (!user) return res.status(400).send({ success: false, message: "Người dùng này không tồn tại!" });
+
+    const file = req.file;
+
+    if (file) {
+        const fileName = file.filename;
+        const user = await User.findByIdAndUpdate(
+            req.params.id,
+            {
+                name: req.body.name,
+                avatar: fileName,
+                email: req.body.email,
+                phone: req.body.phone,
+                apartment: req.body.apartment
+            },
+            { new: true }
+        );
+        if (user) {
+            return res.status(200).json({ success: true, message: "Cập nhật thông tin cá nhân thành công!", data: user });
+        } else {
+            return res.status(500).json({ success: false, message: "Không thể cập nhật thông tin!" });
+        }
+
+    } else {
+        const user = await User.findByIdAndUpdate(
+            req.params.id,
+            {
+                name: req.body.name,
+                email: req.body.email,
+                phone: req.body.phone,
+                apartment: req.body.apartment
+            },
+            { new: true }
+        );
+        if (user) {
+            return res.status(200).json({ success: true, message: "Tạo sản phẩm thành công!", data: product });
+        } else {
+            return res.status(500).json({ success: false, message: "Không thể tạo sản phẩm!" });
+        }
+    }
+});
+
+
 // get user count
 router.get(`/get/count`, async (req, res) => {
     const userCount = await User.countDocuments((count) => count);
@@ -94,32 +164,9 @@ router.delete('/:id', (req, res) => {
         }
     }).catch(err => {
         return res.status(400).json({ success: false, error: err });
-    })
-})
+    });
+});
 
-// recovery password with email
-router.post('/recovery', async (req, res) => {
-    const user = await User.findOne({ email: req.body.email })
-    if (!user) {
-        res.status(400).json({ success: false, message: "Khôi phục mật khẩu lỗi!" })
-    }
-    const token = jwt.sign({ _id: user._id }, process.env.RESET_PASSWORD_KEY, { expiresIn: '15m' })
-    const data = {
-        from: 'noreply@hello.com',
-        to: req.body.email,
-        subject: 'Khôi phục mật khẩu',
-        html: `
-            <h3>Vui lòng nhấn vào đường dẫn bên dưới để khôi phục mật khẩu</h3>
-            <p>Lưu ý: đường dẫn sẽ hết hiệu lực trong 15p nữa</p>
-            <a>${req.protocol}://${req.get('host')}/resetpassword/${token}</a>
-        `
-    }
-    return User.updateOne({resetLink:token},(err,result)=>{
-        if(err){
-            return res.status(400).json({success:false,error:"Reset password link error!!!"})
-        }else{
-            return res.status(200).json({success:true,message:"Email đã được gửi đến email "+req.body.email,data:data})
-        }
-    })
-})
+
+
 module.exports = router;

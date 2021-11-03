@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 import { colors } from "../../../until/colors";
-import { width } from "../../../until/dimension";
+import { statusBarHeight, width } from "../../../until/dimension";
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -11,6 +11,7 @@ export const styles = StyleSheet.create({
         width:width-50,
         backgroundColor:"#fff",
         borderRadius:10,
+        marginTop:statusBarHeight*2,
         padding: 10,
         shadowColor: "#000",
         shadowOffset: {
