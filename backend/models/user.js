@@ -5,6 +5,9 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    avatar: {
+        type: String
+    },
     email: {
         type: String,
         required: true
@@ -43,8 +46,8 @@ const userSchema = mongoose.Schema({
     }
 });
 
-userSchema.set('toJSON',{
-    virtuals:true
+userSchema.set('toJSON', {
+    virtuals: true
 });
 
 exports.User = mongoose.model('User', userSchema);

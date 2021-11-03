@@ -103,6 +103,7 @@ router.put('/:id', uploadOptions.single('avatar'), async (req, res) => {
     if (!user) return res.status(400).send({ success: false, message: "Người dùng này không tồn tại!" });
 
     const file = req.file;
+    console.log(file)
 
     if (file) {
         const fileName = file.filename;
@@ -122,24 +123,25 @@ router.put('/:id', uploadOptions.single('avatar'), async (req, res) => {
         } else {
             return res.status(500).json({ success: false, message: "Không thể cập nhật thông tin!" });
         }
-
-    } else {
-        const user = await User.findByIdAndUpdate(
-            req.params.id,
-            {
-                name: req.body.name,
-                email: req.body.email,
-                phone: req.body.phone,
-                apartment: req.body.apartment
-            },
-            { new: true }
-        );
-        if (user) {
-            return res.status(200).json({ success: true, message: "Tạo sản phẩm thành công!", data: product });
-        } else {
-            return res.status(500).json({ success: false, message: "Không thể tạo sản phẩm!" });
-        }
     }
+
+    // } else {
+    //     const user = await User.findByIdAndUpdate(
+    //         req.params.id,
+    //         {
+    //             name: req.body.name,
+    //             email: req.body.email,
+    //             phone: req.body.phone,
+    //             apartment: req.body.apartment
+    //         },
+    //         { new: true }
+    //     );
+    //     if (user) {
+    //         return res.status(200).json({ success: true, message: "Cập nhật thông tin cá nhân thành công!", data: user });
+    //     } else {
+    //         return res.status(500).json({ success: false, message: "Không thể cập nhật thông tin!" });
+    //     }
+    // }
 });
 
 
