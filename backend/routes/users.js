@@ -107,19 +107,24 @@ router.put('/:id', uploadOptions.single('avatar'), async (req, res) => {
 
     if (file) {
         const fileName = file.filename;
-        const user = await User.findByIdAndUpdate(
+        let tempName = req.body.name ? req.body.name : user.name;
+        let email = req.body.email ? req.body.email : user.email;
+        let phone = req.body.phone ? req.body.phone : user.phone;
+        let apartment = req.body.apartment ? req.body.apartment : user.apartment
+
+        const newUser = await User.findByIdAndUpdate(
             req.params.id,
             {
-                name: req.body.name,
+                name: tempName,
                 avatar: fileName,
-                email: req.body.email,
-                phone: req.body.phone,
-                apartment: req.body.apartment
+                email: email,
+                phone: phone,
+                apartment: apartment
             },
             { new: true }
         );
-        if (user) {
-            return res.status(200).json({ success: true, message: "Cập nhật thông tin cá nhân thành công!", data: user });
+        if (newUser) {
+            return res.status(200).json({ success: true, message: "Cập nhật thông tin cá nhân thành công!", data: newUser });
         } else {
             return res.status(500).json({ success: false, message: "Không thể cập nhật thông tin!" });
         }
