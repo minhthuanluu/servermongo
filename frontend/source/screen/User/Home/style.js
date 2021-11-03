@@ -1,0 +1,59 @@
+import { StyleSheet } from "react-native";
+import { width } from "../../../until/dimension";
+
+export const styles = StyleSheet.create({
+    container:{
+
+    },
+    search:{
+        backgroundColor:"#fff",
+        padding:5,
+        flexDirection:"row",
+        justifyContent:"space-around",
+        marginTop:15
+    },
+    banner:{
+        width:width,
+        height:150,
+        marginTop:30
+    },
+    categoryContainer:{
+        paddingHorizontal:10,
+        paddingVertical:5,
+        marginHorizontal:5,
+        height:45,
+        justifyContent:"center",
+        borderRadius:10
+    },
+    pImage:{
+        width:120,
+        height:150
+    },
+    content:{
+        flex:1,
+        backgroundColor:'white'
+    },
+    cartCountContainer:{
+        backgroundColor:"white",
+        padding:5,
+        width:26,
+        height:26,
+        right:-10,
+        justifyContent:"center",
+        alignItems:"center",
+        borderRadius:13
+    },
+    myBill:{
+        position:"absolute",
+        bottom:70,
+        right:20
+    },
+    myBillImg:{
+        width:50,
+        height:50
+    },
+    avatar:{
+        width:40,height:40,
+        borderRadius:25
+    }
+})  
