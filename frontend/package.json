@@ -1,7 +1,7 @@
 {
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "expo start",
+    "start": "cd frontend && expo start && cd .. && cd bakend && yarn start",
     "android": "expo start --android",
     "a": "expo start --android",
     "ios": "expo start --ios",
@@ -22,7 +22,10 @@
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
     "react-native-screens": "^3.7.2",
-    "react-native-web": "~0.13.12"
+    "react-native-web": "~0.13.12",
+    "react-redux": "^7.2.6",
+    "redux": "^4.1.2",
+    "redux-thunk": "^2.4.1"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"

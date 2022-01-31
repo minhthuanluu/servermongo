@@ -6,6 +6,7 @@ import SelectData from "./SelectData"
 import Header from './Header'
 import Circle from './Circle'
 import MyOrderItem from './MyOrderItem'
+import SearchItem from './SearchItem'
 
 export {
     Input,
@@ -15,5 +16,6 @@ export {
     SelectData,
     Header,
     Circle,
-    MyOrderItem
+    MyOrderItem,
+    SearchItem
 }

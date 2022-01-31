@@ -55,5 +55,16 @@ export const styles = StyleSheet.create({
     avatar:{
         width:40,height:40,
         borderRadius:25
+    },
+    modalSearch:{
+        backgroundColor:"white",
+        flex:1
+    },
+    closebtn:{
+        resizeMode:"contain",
+        width:25,
+        margin:5,
+        height:25,
+        alignSelf:"flex-end"
     }
 })  

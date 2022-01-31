@@ -17,4 +17,5 @@ export const images = {
     back:require("../../assets/back.png"),
     updatewhite:require("../../assets/updatewhite.png"),
     noimg:require("../../assets/noimg.png"),
+    close:require("../../assets/close.png")
 }

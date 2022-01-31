@@ -52,11 +52,10 @@ router.post('/', uploadOptions.single('icon'), async (req, res) => {
     if (!file) return res.status(400).send({ success: false, message: 'Bạn chưa chọn hình ảnh cho sản phẩm' })
 
     const fileName = file.filename;
-    const basePath = `${req.protocol}://${req.get('host')}/public/uploads/`;
 
     let category = new Category({
         name: req.body.name,
-        icon: `${basePath}${fileName}`,
+        icon: `${fileName}`,
         color: req.body.color
     });
     

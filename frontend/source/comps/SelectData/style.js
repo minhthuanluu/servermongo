@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
         padding:7,
         flexDirection:"row",
         borderRadius:25,
-        height:50,
+        height:40,
         shadowColor: colors.black,
         shadowOffset: {
             width: 5,
@@ -35,6 +35,6 @@ export const styles = StyleSheet.create({
         resizeMode:"contain",
         width:25,
         right:10,
-        top:-80
+        top:-85
     }
 })

@@ -1,0 +1,11 @@
+{
+  "name": "servermongo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "\\",
+  "author": "minhthuanluu <minhthuan.luu@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "cd frontend && expo start && cd .. && cd bakend && yarn start"
+  }
+}

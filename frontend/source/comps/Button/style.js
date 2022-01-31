@@ -5,6 +5,7 @@ export const styles= StyleSheet.create({
     container:{
         backgroundColor:"orange",
         padding:10,
+        height:43,
         borderRadius:10
     },
     label:{
