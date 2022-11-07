@@ -30,40 +30,34 @@ const uploadOptions = multer({ storage: storage });
 
 // get All product
 router.get(`/`, async (req, res) => {
-  console.log(req.body);
-  console.log("get All product");
-  const productList = await Product.find();
+    const productList = await Product.find();
+    const brandList = await Brand.find();
+    let newProductList = [];
+    for (let i = 0; i < productList.length; i++) {
+      const product = productList[i];
+      const element = productList[i]?.category;
+      const category = await Category.findById(element);
+      let obj = {
+        richDescription: product.richDescription,
+        image: product.image,
+        images: product.images,
+        brand: brandList[i].name,
+        price: product.price,
+        rating: product.rating,
+        numReviews: product.numReviews,
+        isFeatured: product.isFeatured,
+        _id: product._id,
+        name: product.name,
+        description: product.description,
+        categoryName: category.name,
+        categoryId: category._id,
+        countInStock: product.countInStock,
+        dateCreated: product.dateCreated,
+        __v: product.__v,
+        id: product.id,
+      };
 
-  //   const productList = await Product.find();
-  //   const brandList = await Brand.find();
-
-  //   let newProductList = [];
-  //   for (let i = 0; i < productList.length; i++) {
-  //     const product = productList[i];
-  //     const element = productList[i].category;
-  //     const category = await Category.findById(element);
-
-  //     let obj = {
-  //       richDescription: product.richDescription,
-  //       image: product.image,
-  //       images: product.images,
-  //       brand: brandList[i].name,
-  //       price: product.price,
-  //       rating: product.rating,
-  //       numReviews: product.numReviews,
-  //       isFeatured: product.isFeatured,
-  //       _id: product._id,
-  //       name: product.name,
-  //       description: product.description,
-  //       categoryName: category.name,
-  //       categoryId: category._id,
-  //       countInStock: product.countInStock,
-  //       dateCreated: product.dateCreated,
-  //       __v: product.__v,
-  //       id: product.id,
-  //     };
-
-  //     newProductList.push(obj);
+      newProductList.push(obj);
   if (productList) {
     return res.status(200).json({
       success: true,
@@ -75,24 +69,21 @@ router.get(`/`, async (req, res) => {
       .status(500)
       .json({ success: false, message: "Không thể lấy danh sách sản phẩm!" });
   }
-});
+}});
 
 // get product by multi condition
 router.get("/multicondition", async (req, res) => {
-  console.log("get Product list by price");
-  console.log(req.body);
-  let { categoryId, brandId, from, to } = req.body;
+  let { categoryId, brandId } = req.body;
 
   let productList = [];
   productList = await Product.find({
     category: categoryId,
-    brandId: brandId,
+    brand: brandId,
   });
-  console.log(productList);
   if (productList) {
     return res.status(200).json({
       success: true,
-      message: "Lấy danh sách sản phẩm theo giá thành công!",
+      message: "Lấy danh sách sản phẩm thành công!",
       data: productList,
     });
   } else {

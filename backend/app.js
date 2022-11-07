@@ -24,12 +24,13 @@ const productsRoutes = require('./routes/products');
 const usersRoutes = require('./routes/users');
 const ordersRoutes = require('./routes/orders');
 const brandRoutes = require('./routes/brand');
+const router = express.Router();
 
 const api = process.env.API_URL;
 
 app.use(`${api}/categories`, categoriesRoutes);
 app.use(`${api}/products`, productsRoutes);
-app.use(`${api}/brand`,brandRoutes);
+app.use(`${api}/brand`, brandRoutes);
 app.use(`${api}/users`, usersRoutes);
 app.use(authJwt());
 app.use(`${api}/orders`, ordersRoutes);
